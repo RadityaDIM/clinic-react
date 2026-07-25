@@ -1,13 +1,17 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "../NavBar";
+import { useState } from "react";
+import useAuthStore from "../auth/useAuthStore";
 // Untuk menampilkan ikon, pastikan Anda sudah menginstal bootstrap-icons
 // Jalankan: npm install bootstrap-icons
 // Lalu impor di file index.js atau App.js Anda: import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <NavBar />

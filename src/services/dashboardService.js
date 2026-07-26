@@ -9,4 +9,74 @@ export const dashboardService = {
       throw error;
     }
   },
+  registerPatient: async (patientData) => {
+    try {
+      const response = await apiClient.post("/patient/register", patientData);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getPatientByUserId: async (userId) => {
+    try {
+      const response = await apiClient.get(`/patient/user/${userId}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  getDoctors: async () => {
+    try {
+      const response = await apiClient.get("/doctor/display");
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  createAppointment: async (appointmentData) => {
+    try {
+      const response = await apiClient.post(
+        "/appointment/create",
+        appointmentData,
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  displayAppointment: async () => {
+    try {
+      const response = await apiClient.get("/appointment/display");
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  displayAppointmentById: async (id) => {
+    try {
+      const response = await apiClient.get(`/appointment/display/${id}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  createAdmission: async (admissionData) => {
+    try {
+      const response = await apiClient.post("/admission/create", admissionData);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  createMedicalRecord: async (medicalRecordData) => {
+    try {
+      const response = await apiClient.post(
+        "/MedicalRecord/create",
+        medicalRecordData,
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

@@ -65,7 +65,7 @@ export const Dashboard = () => {
           <Card>
             <Card.Body>
               <Card.Title>Dokter Tersedia</Card.Title>
-              <Card.Text className="fs-2">3</Card.Text>
+              <Card.Text className="fs-2">1</Card.Text>
             </Card.Body>
           </Card>
         </Col>

@@ -1,21 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "../NavBar";
-import { useState } from "react";
-import useAuthStore from "../auth/useAuthStore";
-// Untuk menampilkan ikon, pastikan Anda sudah menginstal bootstrap-icons
-// Jalankan: npm install bootstrap-icons
-// Lalu impor di file index.js atau App.js Anda: import 'bootstrap-icons/font/bootstrap-icons.css';
+import useAuthStore from "./auth/useAuthStore";
+import { ModalRegisterPatient } from "../modalRegisterPatient";
+import { jwtDecode } from "jwt-decode";
+import { dashboardService } from "../../services/dashboardService";
 
 export const LandingPage = () => {
-  const navigate = useNavigate();
+  //opsi ambil data user dari authstore
+  const { user, token } = useAuthStore();
+  const [userData, setUserData] = useState({});
+  const [modalShow, setModalShow] = useState();
+
+  //sama aja opsi pengambilan data user dari decode
+  let userDataToken = null;
+
+  if (token) {
+    userDataToken = jwtDecode(token);
+  }
+
+  let handleDetail = async () => {
+    setModalShow(true);
+    setUserData(user);
+  };
 
   return (
     <>
       <NavBar />
-
       <Container
         fluid
         className="d-flex align-items-center justify-content-center text-center text-white"
@@ -26,17 +39,43 @@ export const LandingPage = () => {
         }}
       >
         <Container>
-          <h1 className="display-4 fw-bold">Manajemen Klinik Modern</h1>
+          <h1 className="display-3 fw-bold">Manajemen Klinik Modern</h1>
           <p className="lead col-md-8 mx-auto">
             Solusi terintegrasi untuk meningkatkan efisiensi dan kualitas
             pelayanan kesehatan Anda.
           </p>
-          <Link to="/dashboard" className="btn btn-light btn-lg">
-            Lihat Demo Dashboard
-          </Link>
+          <div className="d-flex gap-2 justify-content-center">
+            {token ? (
+              <>
+                <Link to="/dashboard" className="btn btn-light btn-lg">
+                  Lihat Dashboard
+                </Link>
+                <Link to="/appointment" className="btn btn-light btn-lg">
+                  Buat Appointment
+                </Link>
+                <Button
+                  className="btn btn-dark btn-lg"
+                  onClick={() => handleDetail()}
+                >
+                  Daftar menjadi pasien
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-light btn-lg">
+                  Lihat Dashboard
+                </Link>
+                <Link to="/login" className="btn btn-light btn-lg">
+                  Buat Appointment
+                </Link>
+                <Link to="/login" className="btn btn-dark btn-lg">
+                  Daftar menjadi pasien
+                </Link>
+              </>
+            )}
+          </div>
         </Container>
       </Container>
-
       <Container className="py-5">
         <h2 className="text-center mb-5">Fitur Unggulan Kami</h2>
         <Row className="text-center">
@@ -66,12 +105,16 @@ export const LandingPage = () => {
           </Col>
         </Row>
       </Container>
-
       <footer className="bg-light text-center p-4 mt-auto">
         <Container>
           <p className="mb-0">&copy; 2026 Klinik Sehat. All Rights Reserved.</p>
         </Container>
       </footer>
+      <ModalRegisterPatient
+        show={modalShow}
+        data={userDataToken}
+        onHide={() => setModalShow(false)}
+      />
     </>
   );
 };

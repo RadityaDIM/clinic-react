@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import useAuthStore from "./auth/useAuthStore";
+import useAuthStore from "./pages/auth/useAuthStore";
 import { useState } from "react";
 
 export default function NavBar() {
@@ -9,6 +9,7 @@ export default function NavBar() {
   const [isHomeHovered, setIsHomeHovered] = useState(false);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [isContactHovered, setIsContactHovered] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const { token, logout } = useAuthStore();
 
   const handleLogout = () => {
@@ -111,10 +112,9 @@ export default function NavBar() {
                   variant="danger"
                   className="px-4 py-2 rounded-3 fw-semibold shadow-sm w-100"
                   onClick={handleLogout}
-                  style={{
-                    transition: "transform 0.2s ease-in-out",
-                    transform: isBrandHovered ? "scale(1.05)" : "scale(1)",
-                  }}
+                  style={navLinkStyle(isButtonHovered)}
+                  onMouseEnter={() => setIsButtonHovered(true)}
+                  onMouseLeave={() => setIsButtonHovered(false)}
                 >
                   Logout
                 </Button>
@@ -123,6 +123,9 @@ export default function NavBar() {
                   <Button
                     variant="primary"
                     className="px-4 py-2 rounded-3 fw-semibold shadow-sm w-100"
+                    style={navLinkStyle(isButtonHovered)}
+                    onMouseEnter={() => setIsButtonHovered(true)}
+                    onMouseLeave={() => setIsButtonHovered(false)}
                   >
                     Login
                   </Button>

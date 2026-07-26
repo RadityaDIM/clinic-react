@@ -1,5 +1,5 @@
 import axios from "axios";
-import useAuthStore from "../components/auth/useAuthStore";
+import useAuthStore from "../components/pages/auth/useAuthStore";
 
 export const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,

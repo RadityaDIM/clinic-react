@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { authService } from "../../services/authService";
+import { authService } from "../../../services/authService";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
@@ -18,6 +18,8 @@ export const Login = () => {
     variant: "success",
   });
   const setToken = useAuthStore((state) => state.setToken);
+
+  const setUser = useAuthStore((state) => state.setUser);
 
   const navigate = useNavigate();
 
@@ -38,8 +40,10 @@ export const Login = () => {
         username: "",
         password: "",
       });
-      setToken(response.data.data.token); // Mengakses token dari response.data
+      setToken(response.data.data.token);
+      setUser(response.data.data);
       console.log("Login successful:", response);
+      console.log(response.data.data);
       console.log("Token: ", response.data.data.token); // Log token untuk verifikasi
       navigate("/"); // Arahkan ke dashboard setelah login berhasil
     } catch (error) {

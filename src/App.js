@@ -5,6 +5,7 @@ import Register from "./components/pages/auth/register";
 import { Login } from "./components/pages/auth/login";
 import { Dashboard } from "./components/pages/dashboard";
 import { Appointment } from "./components/pages/appointment";
+import PatientList from "./utils/listPatient";
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/appointment" element={<Appointment />} />
+
+        {/* ini tes doang buat react query */}
+        <Route path="/patients" element={<PatientList />} />
       </Routes>
     </BrowserRouter>
   );

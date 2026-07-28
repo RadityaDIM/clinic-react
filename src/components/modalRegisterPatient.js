@@ -34,8 +34,14 @@ export const ModalRegisterPatient = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form Data : ", formData);
     try {
-      const response = await dashboardService.registerPatient(formData);
+      const payload = {
+        ...formData,
+        height: Number(formData.height) || 0,
+        weight: Number(formData.weight) || 0,
+      };
+      const response = await dashboardService.registerPatient(payload);
       setAlert({
         show: true,
         message: "Registrasi pasien berhasil!",
@@ -49,11 +55,16 @@ export const ModalRegisterPatient = (props) => {
       });
       console.log("Registration successful:", response);
     } catch (error) {
+      const msg = error.response?.data?.message || "";
+      let userMsg;
+      if (msg.includes("UK_939") || msg.toLowerCase().includes("duplicate") || error.response?.status === 409 || error.response?.status === 500) {
+        userMsg = "User ini sudah terdaftar sebagai pasien.";
+      } else {
+        userMsg = msg || "Registrasi gagal. Silakan periksa kembali data Anda.";
+      }
       setAlert({
         show: true,
-        message:
-          error.response?.data?.message ||
-          "Registrasi gagal. Silakan periksa kembali data Anda.",
+        message: userMsg,
         variant: "danger",
       });
     }

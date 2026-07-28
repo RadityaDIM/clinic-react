@@ -18,16 +18,15 @@ export const Appointment = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Guard clause untuk memastikan data user (dan ID-nya) sudah tersedia
       if (!user?.id) {
         console.error("Data user atau user ID tidak ditemukan.");
         return;
       }
       try {
         const patientResponse = await dashboardService.getPatientByUserId(
-          user.id, // Menggunakan user.id, sesuaikan dengan properti ID dari response login Anda
+          user.id,
         );
-        const patientId = patientResponse.data.data.id; // Disesuaikan dengan struktur response API Anda
+        const patientId = patientResponse.data.data.id;
 
         if (!patientId) {
           throw new Error(
@@ -36,9 +35,8 @@ export const Appointment = (props) => {
         }
 
         const doctorsResponse = await dashboardService.getDoctors();
-        setDoctors(doctorsResponse.data.data); // Disesuaikan dengan struktur response API Anda
+        setDoctors(doctorsResponse.data.data);
 
-        // 3. Set patientId di state formData
         setformData((prev) => ({ ...prev, patientId: patientId }));
       } catch (err) {
         const errorMessage =

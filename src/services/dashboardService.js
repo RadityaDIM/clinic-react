@@ -52,6 +52,18 @@ export const dashboardService = {
       throw error;
     }
   },
+  updateAppointment: async (id, status) => {
+    try {
+      // Mengirim status sebagai query parameter di URL untuk dicocokkan
+      // dengan @RequestParam di backend.
+      const response = await apiClient.put(
+        `/appointment/update/${id}?status=${status}`,
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
   displayAppointmentById: async (id) => {
     try {
       const response = await apiClient.get(`/appointment/display/${id}`);
@@ -71,9 +83,17 @@ export const dashboardService = {
   createMedicalRecord: async (medicalRecordData) => {
     try {
       const response = await apiClient.post(
-        "/MedicalRecord/create",
+        "/medical-record/create",
         medicalRecordData,
       );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+  displayAllDisease: async () => {
+    try {
+      const response = await apiClient.get("/disease/display");
       return response;
     } catch (error) {
       throw error;

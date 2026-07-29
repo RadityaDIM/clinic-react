@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Clock,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import {
   appointments as initialAppts,
   doctors,
@@ -84,6 +85,7 @@ function isSameDay(d1, d2) {
 }
 
 export function Appointments() {
+  const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -218,8 +220,14 @@ export function Appointments() {
       <Header
         title="Janji Temu"
         subtitle={`Total ${filtered.length} janji temu`}
-        action={{ label: "Janji Temu Baru", onClick: () => setShowModal(true) }}
+        action={{
+          label: "Janji Temu Baru",
+          onClick: () => navigate("/book/appointment"),
+        }}
       />
+      {/* <Link to="/book/appointment" className="btn btn-dark">
+        Janji Temu Baru
+      </Link> */}
 
       <div className="flex items-center justify-between mb-5">
         <div className="view-toggle">

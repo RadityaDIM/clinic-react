@@ -16,6 +16,7 @@ import { MedicalRecords } from "./components/pages/MedicalRecords";
 import { Settings } from "./components/pages/Settings";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Appointment } from "./components/pages/appointment";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function NotFound() {
   return (
@@ -57,18 +58,20 @@ function App() {
           <Route path="/appointment" element={<Appointments />} />
           <Route path="/book/appointment" element={<Appointment />} />
 
-          <Route path="/" element={<AppLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="doctors" element={<Doctors />} />
-            <Route path="doctors/:id" element={<DoctorProfile />} />
-            <Route path="patients" element={<Patients />} />
-            <Route path="patients/:id" element={<PatientProfile />} />
-            <Route path="appointments" element={<Appointments />} />
-            <Route path="prescriptions" element={<Prescriptions />} />
-            <Route path="payments" element={<Payments />} />
-            <Route path="medical-records" element={<MedicalRecords />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="*" element={<NotFound />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<AppLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="doctors" element={<Doctors />} />
+              <Route path="doctors/:id" element={<DoctorProfile />} />
+              <Route path="patients" element={<Patients />} />
+              <Route path="patients/:id" element={<PatientProfile />} />
+              <Route path="appointments" element={<Appointments />} />
+              <Route path="prescriptions" element={<Prescriptions />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="medical-records" element={<MedicalRecords />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

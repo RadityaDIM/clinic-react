@@ -14,6 +14,7 @@ import { Prescriptions } from "./components/pages/Prescriptions";
 import { Payments } from "./components/pages/Payments";
 import { MedicalRecords } from "./components/pages/MedicalRecords";
 import { Settings } from "./components/pages/Settings";
+import { Unauthorized } from "./components/pages/Unauthorized";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Appointment } from "./components/pages/appointment";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -55,21 +56,92 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/appointment" element={<Appointments />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/book/appointment" element={<Appointment />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<AppLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="doctors" element={<Doctors />} />
-              <Route path="doctors/:id" element={<DoctorProfile />} />
-              <Route path="patients" element={<Patients />} />
-              <Route path="patients/:id" element={<PatientProfile />} />
-              <Route path="appointments" element={<Appointments />} />
-              <Route path="prescriptions" element={<Prescriptions />} />
-              <Route path="payments" element={<Payments />} />
-              <Route path="medical-records" element={<MedicalRecords />} />
-              <Route path="settings" element={<Settings />} />
+              <Route
+                path="dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="doctors"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+                    <Doctors />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="doctors/:id"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <DoctorProfile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="patients"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <Patients />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="patients/:id"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <PatientProfile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="appointments"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <Appointments />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="prescriptions"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <Prescriptions />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="payments"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+                    <Payments />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="medical-records"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN", "ROLE_DOCTOR"]}>
+                    <MedicalRecords />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="settings"
+                element={
+                  <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route path="*" element={<NotFound />} />
             </Route>
           </Route>

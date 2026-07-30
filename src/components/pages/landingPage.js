@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Phone,
   Mail,
@@ -16,26 +16,36 @@ import {
   Stethoscope,
   Brain,
 } from "lucide-react";
+import { Button } from "react-bootstrap";
 import useAuthStore from "./auth/useAuthStore";
 import { ModalRegisterPatient } from "../modalRegisterPatient";
 import { jwtDecode } from "jwt-decode";
 import "../../styles/theme.css";
+import { Navigate } from "react-router-dom";
 
 export const LandingPage = () => {
-  const { token } = useAuthStore();
+  const { user, token, logout } = useAuthStore();
   const [modalShow, setModalShow] = useState(false);
 
   let userDataToken = null;
   if (token) {
     try {
       userDataToken = jwtDecode(token);
+      console.log("UserDataToken: ", userDataToken);
     } catch (e) {
       userDataToken = null;
     }
   }
 
+  const navigate = useNavigate();
+
   const handleRegister = () => {
     setModalShow(true);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   const comparisonRows = [
@@ -123,12 +133,19 @@ export const LandingPage = () => {
             </a>
             {token ? (
               <>
-                <Link to="/dashboard" className="btn btn-primary">
-                  Dashboard
-                </Link>
-                <Link to="" className="btn btn-danger">
+                {userDataToken.roles[0] == "ROLE_DOCTOR" ||
+                userDataToken.roles[0] == "ROLE_ADMIN" ? (
+                  <>
+                    <Link to="/dashboard" className="btn btn-primary">
+                      Dashboard
+                    </Link>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <Button className="btn btn-danger" onClick={handleLogout}>
                   Logout
-                </Link>
+                </Button>
               </>
             ) : (
               <Link to="/login" className="btn btn-primary">
